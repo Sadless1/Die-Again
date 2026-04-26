@@ -6,7 +6,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
 
     public float speed = 5f;
-    public float jumpForce = 5f;
+    public float jumpForce = 7f;
     public float gravity = -20f;
 
     private Vector3 velocity;

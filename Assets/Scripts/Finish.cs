@@ -3,18 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class Finish : MonoBehaviour
 {
+    public int levelIndex; // set trong Inspector
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            int currentScene = SceneManager.GetActiveScene().buildIndex;
-            int nextScene = currentScene + 1;
+            LevelManager.UnlockNextLevel(levelIndex);
 
-            // Lưu tiến trình
-            PlayerPrefs.SetInt("Level", nextScene);
-
-            // Load level tiếp
-            SceneManager.LoadScene(nextScene);
+            SceneManager.LoadScene("LevelSelect");
         }
     }
 }
