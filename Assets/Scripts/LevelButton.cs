@@ -1,37 +1,52 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class LevelButton : MonoBehaviour
+public class LevelSelectUI : MonoBehaviour
 {
-    public int levelIndex;
+    [System.Serializable]
+    public class LevelUI
+    {
+        public GameObject lockButton;
+        public GameObject unlockButton;
+        public int sceneIndex;
+    }
 
-    public GameObject lockObj;
-    public GameObject unlockObj;
+    public LevelUI[] levels;
 
     void Start()
     {
-        UpdateUI();
-    }
 
-    void UpdateUI()
-    {
-        if (levelIndex <= LevelManager.unlockedLevel)
-        {
-            lockObj.SetActive(false);
-            unlockObj.SetActive(true);
-        }
-        else
-        {
-            lockObj.SetActive(true);
-            unlockObj.SetActive(false);
-        }
-    }
+        //PlayerPrefs.DeleteAll(); // reset toàn bộ
 
-    public void LoadLevel()
-    {
-        if (levelIndex <= LevelManager.unlockedLevel)
+
+        int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 2);
+
+        for (int i = 0; i < levels.Length; i++)
         {
-            SceneManager.LoadScene("Level " + levelIndex);
+            LevelUI level = levels[i];
+
+            if (level.sceneIndex <= unlockedLevel)
+            {
+                // 🔓 MỞ
+                level.lockButton.SetActive(false);
+                level.unlockButton.SetActive(true);
+
+                Button btn = level.unlockButton.GetComponent<Button>();
+
+                int index = level.sceneIndex;
+                btn.onClick.RemoveAllListeners();
+                btn.onClick.AddListener(() =>
+                {
+                    SceneManager.LoadScene(index);
+                });
+            }
+            else
+            {
+                // 🔒 KHÓA
+                level.lockButton.SetActive(true);
+                level.unlockButton.SetActive(false);
+            }
         }
     }
 }
