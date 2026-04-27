@@ -7,10 +7,12 @@ public class PlayerMovement : MonoBehaviour
 
     public float speed = 5f;
     public float jumpForce = 7f;
-    public float gravity = -20f;
+    public float gravity = -15f;
 
     private Vector3 velocity;
     private bool jumpPressed;
+
+    public JoystickController joystick;
 
     void Awake()
     {
@@ -20,18 +22,18 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        // ===== INPUT =====
-        float inputH = Input.GetAxis("Horizontal");
-        float inputV = Input.GetAxis("Vertical");
+        // input
+        float inputH = Input.GetAxis("Horizontal") + joystick.Horizontal;
+        float inputV = Input.GetAxis("Vertical") + joystick.Vertical;
         Vector3 inputDir = new Vector3(inputH, 0, inputV).normalized;
 
-        // ===== JUMP =====
+        // jump
         if (Input.GetKeyDown(KeyCode.Space) && controller.isGrounded)
         {
             jumpPressed = true;
         }
 
-        // ===== GRAVITY =====
+        //  Gravity
         if (controller.isGrounded)
         {
             if (velocity.y < 0)
@@ -53,7 +55,7 @@ public class PlayerMovement : MonoBehaviour
             velocity.y += gravity * Time.deltaTime;
         }
 
-        // ===== ROTATE + MOVE =====
+        // Rotation & Movement
         if (inputDir.magnitude >= 0.1f)
         {
             float targetAngle = Mathf.Atan2(inputDir.x, inputDir.z) * Mathf.Rad2Deg + Camera.main.transform.eulerAngles.y;
@@ -65,13 +67,21 @@ public class PlayerMovement : MonoBehaviour
             controller.Move(moveDir * speed * Time.deltaTime);
         }
 
-        // ===== APPLY GRAVITY =====
+        // Gravity
         controller.Move(velocity * Time.deltaTime);
 
-        // ===== ANIMATION =====
+        // Animation
         if (animator != null)
         {
             animator.SetFloat("Speed", inputDir.magnitude);
+        }
+    }
+
+    public void MobileJump()
+    {
+        if (controller.isGrounded)
+        {
+            jumpPressed = true;
         }
     }
 }

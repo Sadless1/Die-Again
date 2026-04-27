@@ -9,6 +9,7 @@ public class MovingPlatform : MonoBehaviour
     private Vector3 startPos;
     private bool movingForward = true;
 
+
     void Start()
     {
         startPos = transform.position;
@@ -32,7 +33,7 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    // 👇 Fix player bị trượt
+    //  Fix player bị trượt
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))

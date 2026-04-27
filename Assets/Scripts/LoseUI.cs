@@ -8,7 +8,7 @@ public class LoseUI : MonoBehaviour
     public void Show()
     {
         losePanel.SetActive(true);
-        Time.timeScale = 0f; // pause game
+        Time.timeScale = 0f;
     }
 
     public void Retry()

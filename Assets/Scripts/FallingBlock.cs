@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class FallingBlock : MonoBehaviour
 {
-    public Rigidbody[] blocks; // nhiều cube
+    public Rigidbody[] blocks;
     public float delay = 0.5f;
 
     private bool isTriggered = false;

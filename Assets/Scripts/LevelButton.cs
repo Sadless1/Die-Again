@@ -19,7 +19,6 @@ public class LevelSelectUI : MonoBehaviour
 
         //PlayerPrefs.DeleteAll(); // reset toàn bộ
 
-
         int unlockedLevel = PlayerPrefs.GetInt("UnlockedLevel", 2);
 
         for (int i = 0; i < levels.Length; i++)
@@ -28,7 +27,7 @@ public class LevelSelectUI : MonoBehaviour
 
             if (level.sceneIndex <= unlockedLevel)
             {
-                // 🔓 MỞ
+                // mở
                 level.lockButton.SetActive(false);
                 level.unlockButton.SetActive(true);
 
@@ -43,7 +42,7 @@ public class LevelSelectUI : MonoBehaviour
             }
             else
             {
-                // 🔒 KHÓA
+                // khóa
                 level.lockButton.SetActive(true);
                 level.unlockButton.SetActive(false);
             }
